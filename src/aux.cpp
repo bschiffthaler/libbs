@@ -1,5 +1,5 @@
 #include <random>
-#include "aux.h"
+#include <aux.h>
 
 namespace BS {
 

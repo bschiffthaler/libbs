@@ -1,7 +1,7 @@
 #include <cmath>
 #include <stdexcept>
-#include "aux.h"
-#include "vitter_a.h"
+#include <aux.h>
+#include <vitter_a.h>
 
 namespace BS {
 
