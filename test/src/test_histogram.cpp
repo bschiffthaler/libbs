@@ -1,7 +1,8 @@
 #include <vector>
 #include <iostream>
-#include <histogram.h>
-#include <common.h>
+
+#include "../../src/histogram.h"
+#include "../../src/common.h"
 
 int main(int argc, char ** argv)
 {

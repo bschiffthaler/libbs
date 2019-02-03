@@ -1,9 +1,10 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <histogram.h>
-#include <common.h>
 #include <string>
+
+#include "../../src/histogram.h"
+#include "../../src/common.h"
 
 int main(int argc, char ** argv)
 {

@@ -1,9 +1,9 @@
-#include <histogram.h>
-#include <common.h>
 #include <stdexcept>
 #include <limits>
 #include <string>
-#include <aux.h>
+#include "aux.h"
+#include "histogram.h"
+#include "common.h"
 
 namespace BS {
 

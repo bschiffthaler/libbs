@@ -1,5 +1,5 @@
 #include <string>
-#include <simple_sample.h>
+#include "../../src/simple_sample.h"
 #include <iostream>
 
 int main(int argc, char ** argv)

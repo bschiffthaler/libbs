@@ -10,9 +10,11 @@ set(LIBSOURCES src/aux.cpp src/common.cpp src/histogram.cpp src/vitter_a.cpp
 set(HEADERS src/aux.h src/common.h src/histogram.h src/vitter_a.h 
     src/vitter_d.h src/simple_sample.h src/describe.h)
 
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
+if (BUILD_TEST_EXECS)
+  include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+  )
+endif()
 
 add_library(bs SHARED ${LIBSOURCES})
 set_property(TARGET bs PROPERTY CXX_STANDARD 11)
