@@ -40,4 +40,5 @@ double local_uniform_unit_db();
 */
 double div_as_double(uint64_t numerator, uint64_t denominator);
 
+
 } // Namespace BS

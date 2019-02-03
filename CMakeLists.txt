@@ -6,9 +6,9 @@ enable_testing()
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(LIBSOURCES src/aux.cpp src/common.cpp src/histogram.cpp src/vitter_a.cpp 
-    src/vitter_d.cpp)
+    src/vitter_d.cpp src/describe.cpp)
 set(HEADERS src/aux.h src/common.h src/histogram.h src/vitter_a.h 
-    src/vitter_d.h src/simple_sample.h)
+    src/vitter_d.h src/simple_sample.h src/describe.h)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/src

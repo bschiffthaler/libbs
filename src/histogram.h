@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <vector>
 #include <limits>
+#include <cstdint>
+#include <ostream>
 
 namespace BS {
 
@@ -111,7 +113,18 @@ class histogram
   * @return The upper bound.
   */
   double max() const { return _max; }
- private:
+  /**
+  * @brief Print vertical representation of histogram.
+  * @param out An output stream to print to.
+  * @param width The maximum bar width to print.
+  */
+  void print_vertical(std::ostream& out, uint64_t width = 80) const;
+   /**
+  * @brief Print TAB separated histogram.
+  * @param out An output stream to print to.
+  */
+  void print_tsv(std::ostream& out) const;
+  private:
   void _create_breaks();
   uint32_t _bin(const double& x);
   double _min;
