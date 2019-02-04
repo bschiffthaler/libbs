@@ -20,6 +20,7 @@ public:
   double max() { _update(); return _max; }
   double mean() { _update(); return _sum / static_cast<double>(_data.size()); }
   double median() { _update(); return quantile(0.5); }
+  uint64_t size() { return _data.size(); }
   friend class histogram;
 private:
   void _update();
