@@ -5,8 +5,11 @@
 #include <limits>
 #include <cstdint>
 #include <ostream>
+#include "describe.h"
 
 namespace BS {
+
+class desc_stats;
 
 /**
 * @brief Generic histogram class for `double` values.
@@ -45,6 +48,12 @@ class histogram
   */
   histogram(const std::vector<double>& data, const uint32_t bins,
             const bool sorted = false);
+  /**
+  * @brief Constructor using a BS::desc_stats object.
+  * @param stats A BS::desc_stats to use.
+  * @param bins The number of bins.
+  */
+  histogram(desc_stats& stats, const uint32_t bins);
   /**
   * @brief Add a new data point to the histogram with bounds checking.
 

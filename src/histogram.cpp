@@ -50,6 +50,17 @@ _min(std::numeric_limits<double>::infinity())
     add(x);
 }
 
+histogram::histogram(desc_stats& stats, const uint32_t bins) : _bins(bins)
+{
+  stats._update();
+  _min = stats._data.at(0);
+  _max = stats._data.at(stats._data.size() - 1);
+  _counts.resize(_bins, 0);
+  _create_breaks();
+  for (auto& x : stats._data)
+    add(x);
+}
+
 void histogram::_create_breaks() 
 {
   double diff = _max - _min;
