@@ -35,11 +35,14 @@ desc_stats::desc_stats(std::vector<double>& data, bool sorted) :
 
 void desc_stats::_update()
 {
-  std::sort(_data.begin(), _data.end());
-  _min = _data[0];
-  _max = _data[_data.size() - 1];
-  _sum = std::accumulate(_data.begin(), _data.end(), 0);
-
+  if (! _sorted)
+  {
+    std::sort(_data.begin(), _data.end());
+    _min = _data[0];
+    _max = _data[_data.size() - 1];
+    _sum = std::accumulate(_data.begin(), _data.end(), 0);
+    _sorted = true;
+  }
 }
 
 void desc_stats::add(double data)
@@ -56,12 +59,9 @@ double desc_stats::quantile(const double q)
   if (q < 0 || q > 1)
   {
     throw std::runtime_error("[BS::desc_stats::quantile]\t Probability must be"
-      "between 0 and 1");
+                             "between 0 and 1");
   }
-  if (! _sorted)
-  {
-    _update();
-  }
+  _update();
   // Some value sanity in extremities
   if (almost_eq(q, 0))
   {
