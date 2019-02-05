@@ -133,6 +133,7 @@ class histogram
   * @param out An output stream to print to.
   */
   void print_tsv(std::ostream& out) const;
+  void print_horizontal(std::ostream& out, uint64_t height = 30) const;
   private:
   void _create_breaks();
   uint32_t _bin(const double& x);

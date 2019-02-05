@@ -16,10 +16,13 @@ struct options_t
 {
   uint32_t nbins;
   std::string instr;
+  bool horizontal;
+  uint64_t width;
 };
 
 void get_stats(const options_t& opt)
 {
+
   std::vector<double> data;
   std::string line;
 
@@ -68,7 +71,14 @@ void get_stats(const options_t& opt)
 
   BS::histogram hist(stats, opt.nbins);
 
-  hist.print_vertical(std::cout);
+  if (opt.horizontal)
+  {
+    hist.print_horizontal(std::cout, opt.width);
+  }
+  else
+  {
+    hist.print_vertical(std::cout, opt.width);
+  }
 }
 
 int main(int argc, char ** argv)
@@ -83,6 +93,10 @@ int main(int argc, char ** argv)
   ("help,h", "Show this help message")
   ("bins,b", po::value<uint32_t>(&options.nbins)->default_value(30),
    "Number of histogram bins.")
+  ("width,w", po::value<uint64_t>(&options.width)->default_value(40),
+   "Histogram bar width/height")
+  ("horizontal,H", po::bool_switch(&options.horizontal)->default_value(false),
+   "Print horizontal histogram")
   ;
 
   po::options_description req("Input");
@@ -117,6 +131,7 @@ int main(int argc, char ** argv)
   if (vm.count("help"))
   {
     std::cout << umbrella << "\n";
+    return 1;
   }
 
   try
