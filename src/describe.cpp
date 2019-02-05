@@ -12,6 +12,10 @@ desc_stats::desc_stats(std::vector<double>& data, bool sorted) :
   _max(-std::numeric_limits<double>::infinity()),
   _min(std::numeric_limits<double>::infinity()), _sorted(false), _sum(0)
 {
+  if (data.size() == 0)
+  {
+    throw std::runtime_error("[BS::desc_stats::desc_stats] Data vector length 0");
+  }
   if (sorted)
   {
     for (double& d : data)
