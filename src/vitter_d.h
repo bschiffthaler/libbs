@@ -48,15 +48,15 @@ private:
   uint64_t gen_skip();
   void update_variables();
   // Data
-  uint64_t _S;
   uint64_t _N;
-  uint64_t _n;
-  uint64_t _current;
+  uint64_t _S;
   double _V_prime;
+  uint64_t _current;
+  bool _init_va;
+  uint64_t _n;
   uint64_t _quant1;
   double _quant2;
   uint64_t _threshold;
-  bool _init_va;
   vitter_a _va;
 };
 

@@ -135,13 +135,14 @@ class histogram
   void print_tsv(std::ostream& out) const;
   void print_horizontal(std::ostream& out, uint64_t height = 30) const;
   private:
-  void _create_breaks();
   uint32_t _bin(const double& x);
-  double _min;
-  double _max;
+  void _create_breaks();
+  //
   uint32_t _bins;
-  std::vector<uint64_t> _counts;
   std::vector<double> _breaks;
+  std::vector<uint64_t> _counts;
+  double _max;
+  double _min;
 };
 
 } // namespace BS

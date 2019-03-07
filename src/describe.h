@@ -69,10 +69,11 @@ public:
   friend class histogram;
 private:
   void _update();
-  bool _sorted;
+  //
   std::vector<double> _data;
-  double _sum;
-  double _min;
   double _max;
+  double _min;
+  bool _sorted;
+  double _sum;
 };
 }
