@@ -68,11 +68,12 @@ public:
   uint64_t size() { return _data.size(); }
   friend class histogram;
 private:
+  void _update();
+  //
   std::vector<double> _data;
   double _max;
   double _min;
   bool _sorted;
   double _sum;
-  void _update();
 };
 }

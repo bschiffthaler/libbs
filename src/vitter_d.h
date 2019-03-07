@@ -54,9 +54,9 @@ private:
   uint64_t _current;
   bool _init_va;
   uint64_t _n;
-  uint64_t _threshold;
   uint64_t _quant1;
   double _quant2;
+  uint64_t _threshold;
   vitter_a _va;
 };
 
