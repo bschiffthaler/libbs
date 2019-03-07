@@ -47,11 +47,11 @@ private:
   // Functions
   uint64_t gen_skip();
   // Data
-  uint64_t _S;
   uint64_t _N;
+  uint64_t _S;
+  uint64_t _current;
   uint64_t _n;
   uint64_t _top;
-  uint64_t _current;
 };
 
 } // Namespace BS

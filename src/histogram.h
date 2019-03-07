@@ -112,13 +112,13 @@ class histogram
   */
   double max() const { return _max; }
  private:
-  void _create_breaks();
   uint32_t _bin(const double& x);
-  double _min;
-  double _max;
   uint32_t _bins;
-  std::vector<uint64_t> _counts;
   std::vector<double> _breaks;
+  std::vector<uint64_t> _counts;
+  void _create_breaks();
+  double _max;
+  double _min;
 };
 
 } // namespace BS

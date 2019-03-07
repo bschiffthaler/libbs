@@ -6,7 +6,7 @@
 namespace BS {
 
 vitter_a::vitter_a(uint64_t N, uint64_t n) : 
-  _N(N), _n(n), _top(N - n), _current(0) 
+  _N(N), _current(0), _n(n), _top(N - n) 
 {
   if (n > N)
     throw std::runtime_error("Cannot sample more than population without "

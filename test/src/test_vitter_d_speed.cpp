@@ -11,7 +11,7 @@ int main(int argc, char ** argv)
 
     while (! vd.end())
     {
-      uint64_t cur = vd.next();
+      vd.next();
     }
   }
   catch (std::exception& e)
