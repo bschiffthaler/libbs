@@ -3,6 +3,8 @@ project (bs)
 
 enable_testing()
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(LIBSOURCES src/aux.cpp src/common.cpp src/histogram.cpp src/vitter_a.cpp 
