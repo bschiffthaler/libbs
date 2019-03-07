@@ -1,6 +1,6 @@
 #include <limits>
 #include <cmath>
-#include <common.h>
+#include "common.h"
 
 namespace BS {
 
@@ -28,7 +28,7 @@ bool almost_eq(const double lhs, const double rhs)
 {
   double diff = fabs(lhs - rhs);
   double greater = lhs > rhs ? lhs : rhs;
-  if (diff <= greater * std::numeric_limits<double>::epsilon())
+  if (diff <= fabs(greater * std::numeric_limits<double>::epsilon()))
     return true;
   else
     return false;

@@ -1,6 +1,6 @@
 #include <string>
 #include <unordered_set>
-#include <vitter_d.h>
+#include "../../src/vitter_d.h"
 #include <iostream>
 
 int main(int argc, char ** argv)

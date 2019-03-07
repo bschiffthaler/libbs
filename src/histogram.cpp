@@ -1,7 +1,9 @@
-#include <histogram.h>
-#include <common.h>
 #include <stdexcept>
 #include <limits>
+#include <string>
+#include "aux.h"
+#include "histogram.h"
+#include "common.h"
 
 namespace BS {
 
@@ -44,6 +46,19 @@ _min(std::numeric_limits<double>::infinity())
   }
   _counts.resize(_bins, 0);
   _create_breaks();
+  for (auto& x : data)
+    add(x);
+}
+
+histogram::histogram(desc_stats& stats, const uint32_t bins) : _bins(bins)
+{
+  stats._update();
+  _min = stats._data.at(0);
+  _max = stats._data.at(stats._data.size() - 1);
+  _counts.resize(_bins, 0);
+  _create_breaks();
+  for (auto& x : stats._data)
+    add(x);
 }
 
 void histogram::_create_breaks() 
@@ -69,11 +84,13 @@ uint32_t histogram::_bin(const double& x)
 void histogram::add(const double& x)
 {
   if (! almost_lt_eq(x, _max))
-    throw std::runtime_error("[BS::histogram::add] Trying to add value "
-                             "greater than max in the histogram");
+    throw std::runtime_error("[BS::histogram::add] Trying to add value " +
+      std::to_string(x) + " greater than max " +
+      std::to_string(_max) + " in the histogram");
   if (! almost_gt_eq(x, _min))
-    throw std::runtime_error("[BS::histogram::add] Trying to add value "
-                             "less than min in the histogram");
+    throw std::runtime_error("[BS::histogram::add] Trying to add value "  +
+      std::to_string(x) + " less than min " +
+       std::to_string(_min) + " in the histogram");
   _counts[_bin(x)]++;
 }
 
@@ -81,4 +98,61 @@ void histogram::unsafe_add(const double& x)
 {
   _counts[_bin(x)]++;
 }
+
+void histogram::print_vertical(std::ostream& out, uint64_t width) const
+{
+  std::vector<std::string> axis;
+  uint64_t sum_of_counts = 0;
+  for (uint32_t i = 0; i < _bins; i++)
+  {
+    double ub = (i == (_bins - 1)) ? _max : _breaks[i + 1];
+    double lb = _breaks[i];
+    char rbr = (i == (_bins - 1)) ? ']' : ')';
+    std::string ax;
+    ax += '[';
+    ax += std::to_string(lb);
+    ax += std::string(", ");
+    ax += std::to_string(ub);
+    ax += rbr;
+    axis.push_back(ax);
+    sum_of_counts += _counts[i];
+  }
+  uint64_t max_axis_len = 0;
+  for (const auto& ax : axis)
+  {
+    if (ax.size() > max_axis_len)
+    {
+      max_axis_len = ax.size();
+    }
+  }
+  for (uint32_t i = 0; i < _bins; i++)
+  {
+    uint64_t cur_axis_len = axis[i].size();
+    for (uint64_t j = cur_axis_len; j < max_axis_len; j++)
+    {
+      out << ' ';
+    }
+    out << axis[i] << '\t';
+    double fraction = div_as_double(_counts[i], sum_of_counts);
+    double height = static_cast<double>(width) * fraction;
+    uint64_t bheight = height < 0 ? 0 : static_cast<uint64_t>(height); 
+
+    for (uint64_t j = 0; j < bheight; j++)
+    {
+      out << '#';
+    }
+    out << ' ' << _counts[i] << '\n';
+  }
+}
+
+void histogram::print_tsv(std::ostream& out) const
+{
+  for (uint32_t i = 0; i < _bins; i++)
+  {
+    double ub = (i == (_bins - 1)) ? _max : _breaks[i + 1];
+    double lb = _breaks[i];
+    out << lb << '\t' << ub << '\t' << _counts[i] << '\n';
+  }
+}
+
 } // namespace BS

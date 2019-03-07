@@ -1,5 +1,5 @@
 #include <random>
-#include <aux.h>
+#include "aux.h"
 
 namespace BS {
 
@@ -24,4 +24,5 @@ double div_as_double(uint64_t numerator, uint64_t denominator)
 {
   return static_cast<double>(numerator) / static_cast<double>(denominator);
 }
+
 }

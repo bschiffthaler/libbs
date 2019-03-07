@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vitter_a.h>
+#include "vitter_a.h"
 #include <cstdint>
 
 namespace BS {
