@@ -17,38 +17,36 @@ int main(int argc, char ** argv)
     {
       if (i != hist.bins() - 1)
       {
-        if (hist.counts()[i] != 2) return 1;
+        if (hist.counts()[i] != 2) return __LINE__;
       }
       else
       {
-        if (hist.counts()[i] != 3) return 1;
+        if (hist.counts()[i] != 3) return __LINE__;
       }
     }
   }
   catch(std::exception& e)
   {
     std::cerr << e.what() << '\n';
-    return 1;
+    return __LINE__;
   }
 
   try  // Should fail
   {
     hist.add(2);
-    return 1;
+    return __LINE__;
   }
   catch(std::exception& e)
   {
-    std::cerr << e.what() << '\n';
   }
 
   try  // Should fail
   {
     hist.add(-1);
-    return 1;
+    return __LINE__;
   }
   catch(std::exception& e)
   {
-    std::cerr << e.what() << '\n';
   }
 
   return 0;

@@ -20,12 +20,12 @@ int main(int argc, char ** argv)
       if (cur >= N)
       {
         std::cerr << "Sample greater than population\n";
-        return 1; // impossible
+        return __LINE__; // impossible
       }
       if (gens.find(cur) != gens.end())
       {
         std::cerr << "Sample duplicate\n";
-        return 1; // duplicate
+        return __LINE__; // duplicate
       }
       gens.insert(cur);
     }
@@ -33,7 +33,7 @@ int main(int argc, char ** argv)
   catch (std::exception& e)
   {
     std::cerr << e.what() << '\n';
-    return 1;
+    return __LINE__;
   }
   return 0;
 }

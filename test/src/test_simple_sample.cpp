@@ -17,14 +17,14 @@ int main(int argc, char ** argv)
       if (cur >= N)
       {
         std::cerr << "Sample greater than population\n";
-        return 1; // impossible
+        return __LINE__; // impossible
       }
     }
   }
   catch (std::exception& e)
   {
     std::cerr << e.what() << '\n';
-    return 1;
+    return __LINE__;
   }
   return 0;
 }
