@@ -72,4 +72,37 @@ std::vector<std::string> str_split(std::string const & str,
   return ret;
 }
 
+std::vector<std::string> str_split_np(std::string const & str)
+{
+  std::vector<std::string> ret;
+  std::string word;
+  for (uint64_t i = 0; i < str.size(); i++)
+  {
+    char const & c = str[i];
+    if (c < 33)
+    {
+      ret.push_back(word);
+      word = std::string();
+      while ((i + 1) < str.size() && str[i + 1] < 33)
+      {
+        i++;
+      }
+      // Break early if we hit several ws characters at the end
+      if (i == (str.size() - 1))
+      {
+        break;
+      }
+    }
+    else
+    {
+      word += c;
+    }
+    if (i == (str.size() - 1))
+    {
+      ret.push_back(word);
+    }
+  }
+  return ret;
+}
+
 }

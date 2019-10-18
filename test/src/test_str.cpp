@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include "../../src/str_manip.h"
 
 int main(int argc, char const ** argv)
@@ -11,7 +12,7 @@ int main(int argc, char const ** argv)
                         "Pale Alenta brings the blight. "
                         "Last there is the lord of seven: "
                         "Hated. Hopeless. Sleepless. Sane. "
-                        "Alaxel bears the shadow's hame.");
+                        "Alaxel bears the         shadow's      hame.");
 
   if (BS::str_startswith(chandrian, "Kvothe"))
   {
@@ -37,7 +38,13 @@ int main(int argc, char const ** argv)
   if (! (words[0] == "Cyphus") ||
       ! (words[2] == "the") ||
       ! (words[4] == "flame.") ||
-      ! (words[47] == "hame."))
+      ! (words[words.size() - 1] == "hame."))
+  {
+    return __LINE__;
+  }
+
+  std::vector<std::string> words2 = BS::str_split_np(chandrian);
+  if (! (words2[words2.size() - 2] == "shadow's"))
   {
     return __LINE__;
   }

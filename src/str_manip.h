@@ -36,4 +36,13 @@ bool str_endswith(std::string const & str,
 std::vector<std::string> str_split(std::string const & str,
                                    char const & pattern);
 
+/**
+* @brief Split a string into a vector of substrings by any non-printing
+* character
+* 
+* @param str The string to split
+* @return A vector of strings delimited by non-printing charcters
+*/
+std::vector<std::string> str_split_np(std::string const & str);
+
 }
