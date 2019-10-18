@@ -17,7 +17,12 @@ set(HEADERS src/aux.h src/common.h src/histogram.h src/vitter_a.h
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_library(bs SHARED ${LIBSOURCES})
+add_library(bs_S STATIC ${LIBSOURCES})
+
+set_target_properties(bs_S PROPERTIES OUTPUT_NAME bs)
+
 set_property(TARGET bs PROPERTY CXX_STANDARD 11)
+set_property(TARGET bs_S PROPERTY CXX_STANDARD 11)
 
 if (BUILD_TEST_EXECS)
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
