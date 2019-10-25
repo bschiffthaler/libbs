@@ -39,7 +39,7 @@ public:
   * @param q The quantile as a fraction, e.g.: `0.5` for Q50.
   * @return The value of the data at the given quantile. 
   */
-  inline T quantile(const double q);
+  inline double quantile(const double q);
   /**
   * @brief Retrieve the sum of the data.
   * @return The sum of the data.
@@ -69,8 +69,8 @@ public:
   * @brief Retrieve the magnitude of the data.
   * @return The magnitude of the data.
   */
-  inline uint64_t size() { return _data.size(); }
-  inline uint64_t count() { return size(); }
+  inline uint64_t size() const { return _data.size(); }
+  inline uint64_t count() const { return size(); }
   template <typename U> friend class histogram;
 private:
   void _update();
@@ -140,7 +140,7 @@ void desc_stats<T>::add(T data)
 }
 
 template <typename T>
-T desc_stats<T>::quantile(const double q)
+double desc_stats<T>::quantile(const double q)
 {
   if (q < 0 || q > 1)
   {
@@ -158,21 +158,28 @@ T desc_stats<T>::quantile(const double q)
     return _data[_data.size() - 1];
   }
   // Get index of probablities
-  double prob = q * static_cast<double>(_data.size());
-  uint64_t index;
+  double h = q * static_cast<double>(_data.size() - 1) + 1;
+  uint64_t i0;
   if (q < 0)
   {
-    index = 0;
+    return static_cast<double>(_data[0]);
+  }
+  else if (q > 1)
+  {
+    return static_cast<double>(_data[_data.size() - 1]);
+  }
+  else if (almost_eq<double>(h, std::floor(h)))
+  {
+    i0 = std::trunc(h) - 1;
+    return static_cast<double>(_data[i0]);
   }
   else
   {
-    index = static_cast<uint64_t>(prob);
-    if (index > _data.size())
-    {
-      index = _data.size();
-    }
+    i0 = std::trunc(h) - 1;
+    double xh = static_cast<double>(_data[i0]);
+    double xh1 = static_cast<double>(_data[i0 + 1]);
+    return xh + (h - std::floor(h)) * (xh1 - xh);
   }
-  return _data[index];
 }
 
 }
