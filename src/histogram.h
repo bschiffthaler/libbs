@@ -10,6 +10,8 @@
 
 namespace BS {
 
+template <typename T> class desc_stats;
+
 /**
 * @brief Generic histogram class for `double` values.
 * 
