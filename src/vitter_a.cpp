@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "aux.h"
 #include "vitter_a.h"
+#include "common.h"
 
 namespace BS {
 
@@ -31,13 +32,13 @@ uint64_t vitter_a::gen_skip()
     double V = global_uniform_unit_db();
     // Step A2
     uint64_t S = 0;
-    double quot = div_as_double(_top, _N);
+    double quot = div_as_double<uint64_t>(_top, _N);
     while (quot > V)
     {
       ++S;
       --_top;
       --_N;
-      quot = quot * div_as_double(_top, _N);
+      quot = quot * div_as_double<uint64_t>(_top, _N);
     }
     // Step A3
     --_N;

@@ -20,9 +20,4 @@ double local_uniform_unit_db()
   return dis(mt);
 }
 
-double div_as_double(uint64_t numerator, uint64_t denominator)
-{
-  return static_cast<double>(numerator) / static_cast<double>(denominator);
-}
-
 }

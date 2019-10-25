@@ -1,6 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
+#include <numeric>
+#include "common.h"
 #include "histogram.h"
 
 namespace BS {
@@ -9,18 +12,19 @@ namespace BS {
 * 
 * This class implements several descriptive stats for double values.
 */
+template <typename T>
 class desc_stats {
 public:
   /**
   * @brief Empty constructor
   */
-  desc_stats();
+  inline desc_stats();
   /**
   * @brief Constructor from a vector.
   * @param data A vector<double> containing the data.
   * @param sorted Indicates wether `data` is sorted.
   */
-  desc_stats(std::vector<double>& data, bool sorted = false);
+  inline desc_stats(std::vector<T>& data, bool sorted = false);
   /**
   * @brief Add a single data point.
   * @param data A double data point.
@@ -29,51 +33,146 @@ public:
   * structure will be sorted before returning any stats. It is always more 
   * efficient to call the getters once all data is added.
   */
-  void add(double data);
+  inline void add(T data);
   /**
   * @brief Retrieve the value at a given quantile.
   * @param q The quantile as a fraction, e.g.: `0.5` for Q50.
   * @return The value of the data at the given quantile. 
   */
-  double quantile(const double q);
+  inline T quantile(const double q);
   /**
   * @brief Retrieve the sum of the data.
   * @return The sum of the data.
   */
-  double sum() { _update(); return _sum; }
+  inline T sum() { _update(); return _sum; }
   /**
   * @brief Retrieve the min of the data.
   * @return The min of the data.
   */
-  double min() { _update(); return _min; }
+  inline T min() { _update(); return _min; }
   /**
   * @brief Retrieve the max of the data.
   * @return The max of the data.
   */
-  double max() { _update(); return _max; }
+  inline T max() { _update(); return _max; }
   /**
   * @brief Retrieve the mean of the data.
   * @return The mean of the data.
   */
-  double mean() { _update(); return _sum / static_cast<double>(_data.size()); }
+  inline double mean() { _update(); return _sum / static_cast<double>(_data.size()); }
   /**
   * @brief Retrieve the median of the data.
   * @return The median of the data.
   */
-  double median() { _update(); return quantile(0.5); }
+  inline double median() { _update(); return quantile(0.5); }
   /**
   * @brief Retrieve the magnitude of the data.
   * @return The magnitude of the data.
   */
-  uint64_t size() { return _data.size(); }
-  friend class histogram;
+  inline uint64_t size() { return _data.size(); }
+  inline uint64_t count() { return size(); }
+  template <typename U> friend class histogram;
 private:
   void _update();
   //
-  std::vector<double> _data;
-  double _max;
-  double _min;
+  std::vector<T> _data;
+  T _max;
+  T _min;
   bool _sorted;
-  double _sum;
+  T _sum;
 };
+
+template <typename T>
+desc_stats<T>::desc_stats() : _max(-std::numeric_limits<T>::infinity()),
+  _min(std::numeric_limits<T>::infinity()), _sorted(false), _sum(0) {}
+
+template <typename T>
+desc_stats<T>::desc_stats(std::vector<T>& data, bool sorted) :
+  _max(-std::numeric_limits<T>::infinity()),
+  _min(std::numeric_limits<T>::infinity()), _sorted(false), _sum(0)
+{
+  if (data.size() == 0)
+  {
+    throw std::runtime_error("[BS::desc_stats::desc_stats] Data vector length 0");
+  }
+  if (sorted)
+  {
+    for (T& d : data)
+    {
+      _data.push_back(d);
+      _sum += d;
+    }
+    _min = data[0];
+    _max = data[data.size() - 1];
+    _sorted = true;
+  }
+  else
+  {
+    for (T& d : data)
+    {
+      _data.push_back(d);
+    }
+    _update();
+  }
+}
+
+template <typename T>
+void desc_stats<T>::_update()
+{
+  if (! _sorted)
+  {
+    std::sort(_data.begin(), _data.end());
+    _min = _data[0];
+    _max = _data[_data.size() - 1];
+    _sum = std::accumulate(_data.begin(), _data.end(), 0);
+    _sorted = true;
+  }
+}
+
+template <typename T>
+void desc_stats<T>::add(T data)
+{
+  _data.push_back(data);
+  if (_sorted)
+  {
+    _sorted = false;
+  }
+}
+
+template <typename T>
+T desc_stats<T>::quantile(const double q)
+{
+  if (q < 0 || q > 1)
+  {
+    throw std::runtime_error("[BS::desc_stats::quantile]\t Probability must be"
+                             "between 0 and 1");
+  }
+  _update();
+  // Some value sanity in extremities
+  if (almost_eq<T>(q, 0))
+  {
+    return _data[0];
+  }
+  if (almost_eq<T>(q, 1))
+  {
+    return _data[_data.size() - 1];
+  }
+  // Get index of probablities
+  double prob = q * static_cast<double>(_data.size());
+  uint64_t index;
+  if (q < 0)
+  {
+    index = 0;
+  }
+  else
+  {
+    index = static_cast<uint64_t>(prob);
+    if (index > _data.size())
+    {
+      index = _data.size();
+    }
+  }
+  return _data[index];
+}
+
 }

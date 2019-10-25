@@ -48,7 +48,7 @@ void get_stats(const options_t& opt)
     data.push_back(std::stod(line));
   }
 
-  BS::desc_stats stats(data);
+  BS::desc_stats<double> stats(data);
 
   std::cout << "\n##################################\n"
             << "####### General statistics #######\n"
@@ -69,7 +69,7 @@ void get_stats(const options_t& opt)
             << "########### Histogram ############\n"
             << "##################################\n\n";
 
-  BS::histogram hist(stats, opt.nbins);
+  BS::histogram<double> hist(stats, opt.nbins);
 
   if (opt.horizontal)
   {

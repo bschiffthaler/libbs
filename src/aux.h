@@ -35,10 +35,4 @@ double global_uniform_unit_db();
 */
 double local_uniform_unit_db();
 
-/**
-* @brief Helper function to cast uint64_t to double and divide
-*/
-double div_as_double(uint64_t numerator, uint64_t denominator);
-
-
 } // Namespace BS
