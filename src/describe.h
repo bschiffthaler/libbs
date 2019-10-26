@@ -149,11 +149,11 @@ double desc_stats<T>::quantile(const double q)
   }
   _update();
   // Some value sanity in extremities
-  if (almost_eq<T>(q, 0))
+  if (almost_eq<double>(q, 0))
   {
     return _data[0];
   }
-  if (almost_eq<T>(q, 1))
+  if (almost_eq<double>(q, 1))
   {
     return _data[_data.size() - 1];
   }
